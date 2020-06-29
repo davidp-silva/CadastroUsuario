@@ -5,14 +5,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Ds.Api.Data;
 using Ds.Businness.Interfaces;
-using Ds.Data.Repository;
 using AutoMapper;
 using Ds.Businness.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Ds.Data.Repository;
 
 namespace Ds.Api
 {
@@ -64,7 +63,7 @@ namespace Ds.Api
                     ValidateAudience = false
                 };
             });
-
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -90,6 +89,14 @@ namespace Ds.Api
             {
                 endpoints.MapControllers();
             });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.RoutePrefix = string.Empty;
+            });
+
         }
     }
 }
